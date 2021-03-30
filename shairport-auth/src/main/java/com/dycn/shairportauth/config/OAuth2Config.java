@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -19,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -53,6 +56,11 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private TokenStore jwtTokenStore;
 
+    @Autowired(required = false)
+    private JWTokenEnhancer jWTokenEnhancer;
+
+
+
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
@@ -61,13 +69,46 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
         // 存放redis token
         // 存放jwt token
         // 验证方式
-        endpoints.authenticationManager(authenticationManager)
-                // 验证规则
-                .userDetailsService(customUserDetailsService)
-                .accessTokenConverter(jwtAccessTokenConverter)
+//        endpoints.authenticationManager(authenticationManager)
+//                // 验证规则
+//                .userDetailsService(customUserDetailsService)
+//                .accessTokenConverter(jwtAccessTokenConverter)
+//
+//                // 存放位置
+//                .tokenStore(jwtTokenStore);
 
-                // 存放位置
-                .tokenStore(jwtTokenStore);
+
+
+
+
+        if (jwtAccessTokenConverter != null) {
+            if (jWTokenEnhancer != null) {
+                TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+                tokenEnhancerChain.setTokenEnhancers(
+                        Arrays.asList(jwtTokenEnhancer, jwtAccessTokenConverter));
+                endpoints.tokenEnhancer(tokenEnhancerChain);
+            } else {
+                endpoints.accessTokenConverter(jwtAccessTokenConverter);
+            }
+        }
+        endpoints.tokenStore(jwtTokenStore)
+                .authenticationManager(authenticationManager)
+                .userDetailsService(customUserDetailsService);
+//                .authorizationCodeServices(authorizationCodeServices)
+//                .exceptionTranslator(webResponseExceptionTranslator);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -122,9 +163,9 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         // 客户端访问的权限
-        security.allowFormAuthenticationForClients();
-        security.checkTokenAccess("isAuthenticated()");
-        security.tokenKeyAccess("isAuthenticated()");
+        security.allowFormAuthenticationForClients()
+                .checkTokenAccess("isAuthenticated()")
+                .tokenKeyAccess("isAuthenticated()");
     }
 }
 
