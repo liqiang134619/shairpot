@@ -25,14 +25,14 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 
-    @Value("${security.oauth2.client.client-id}")
-    private String clientId;
-
-    @Value("${security.oauth2.client.client-secret}")
-    private String secret;
-
-    @Value("${security.oauth2.authorization.check-token-access}")
-    private String checkTokenEndpointUrl;
+//    @Value("${security.oauth2.client.client-id}")
+//    private String clientId;
+//
+//    @Value("${security.oauth2.client.client-secret}")
+//    private String secret;
+//
+//    @Value("${security.oauth2.authorization.check-token-access}")
+//    private String checkTokenEndpointUrl;
 
 //    @Autowired
 //    private RedisConnectionFactory redisConnectionFactory;
@@ -55,6 +55,20 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 //    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
 //        resources.tokenServices(tokenService());
 //    }
+
+
+    /****************************
+     * 以上是 RedisToken 方式的配置
+     * --------------------------
+     * 以下是 JWT 方式配置
+     ****************************/
+
+
+
+
+
+
+
 
     @Bean
     public TokenStore jwtTokenStore() {

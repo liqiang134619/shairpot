@@ -24,11 +24,9 @@ import javax.annotation.Resource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    @Autowired
-    private CustomUserDetailsServiceImpl customUserDetailsService;
-
-
-
+//    @Autowired
+//    private CustomUserDetailsServiceImpl customUserDetailsService;
+//
 
 
 
@@ -52,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
 
         WebSecurity webSecurity = web.ignoring().and();
+        webSecurity.ignoring().antMatchers("/oauth/login/**");
 
         // 按照指定规则过滤
 //        custom2Config.getIgnores().forEach(url -> webSecurity.ignoring().antMatchers(url));
@@ -69,9 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll();
     }
 
-    @Autowired
-    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-    }
+//    @Autowired
+//    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+//    }
 
 }
