@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
 
         WebSecurity webSecurity = web.ignoring().and();
-        webSecurity.ignoring().antMatchers("/oauth/login/**");
+        webSecurity.ignoring().antMatchers("/auth/**");
 
         // 按照指定规则过滤
 //        custom2Config.getIgnores().forEach(url -> webSecurity.ignoring().antMatchers(url));
@@ -64,13 +64,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/**").permitAll();
+//        http.authorizeRequests()
+//                .antMatchers("/**").permitAll();
+        http.csrf().disable()
+                .httpBasic().and()
+                .formLogin()
+                .and()
+                .authorizeRequests().anyRequest().authenticated();
     }
 
 //    @Autowired
 //    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
 //    }
+
+
+
 
 }

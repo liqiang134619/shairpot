@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -115,19 +116,19 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
         /**
          * jwt 增强模式
          */
-        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        List<TokenEnhancer> enhancerList = new ArrayList<>();
-        enhancerList.add(jwtTokenEnhancer);
-        enhancerList.add(jwtAccessTokenConverter);
-        enhancerChain.setTokenEnhancers(enhancerList);
-        endpoints.tokenStore(jwtTokenStore)
-                .userDetailsService(customUserDetailsService)
-                /**
-                 * 支持 password 模式
-                 */
-                .authenticationManager(authenticationManager)
-                .tokenEnhancer(enhancerChain)
-                .accessTokenConverter(jwtAccessTokenConverter);
+//        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+//        List<TokenEnhancer> enhancerList = new ArrayList<>();
+//        enhancerList.add(jwtTokenEnhancer);
+//        enhancerList.add(jwtAccessTokenConverter);
+//        enhancerChain.setTokenEnhancers(enhancerList);
+//        endpoints.tokenStore(jwtTokenStore)
+//                .userDetailsService(customUserDetailsService)
+//                /**
+//                 * 支持 password 模式
+//                 */
+//                .authenticationManager(authenticationManager)
+//                .tokenEnhancer(enhancerChain)
+//                .accessTokenConverter(jwtAccessTokenConverter);
 
         /**
          * redis token 方式
@@ -137,6 +138,10 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
 //                .userDetailsService(kiteUserDetailsService);
 
 
+        endpoints.accessTokenConverter(jwtAccessTokenConverter)
+                .authenticationManager(authenticationManager)//认证管理器
+                .tokenStore(jwtTokenStore)//令牌存储
+                .userDetailsService(customUserDetailsService);//用户信息service
 
 
 
@@ -174,6 +179,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         // 客户端访问的权限
         security.allowFormAuthenticationForClients()
+                .passwordEncoder(new BCryptPasswordEncoder())
                 .checkTokenAccess("isAuthenticated()")
                 .tokenKeyAccess("isAuthenticated()");
     }
