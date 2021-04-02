@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
  */
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/health")
 public class UserController {
 
     @GetMapping(value = "get")
@@ -30,7 +30,6 @@ public class UserController {
 
 
     @GetMapping(value = "get1")
-    @PreAuthorize("hasRole('ROLE_TEST')")
     public Object get1(Authentication authentication){
         authentication.getCredentials();
         OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();

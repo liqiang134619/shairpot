@@ -24,6 +24,7 @@
         <module>shairport-gateway</module>
         <module>shairport-auth</module>
         <module>shairport-health</module>
+        <module>shairport-common</module>
     </modules>
 
     <dependencies>
@@ -52,7 +53,10 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

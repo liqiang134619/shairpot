@@ -2,13 +2,48 @@ server:
   port: 9527
 
 
+
 spring:
-  application:
-    name: airport-gateway
   cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8899
+        port: 8899
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-headers: "*"
+            allow-credentials: true
+            allowed-methods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTION
       routes:
-        -id: seckill-provider-route
-        uri: lb://auth-server
-        predicates:
-         -Path=/auth/**
+        - id: auth_route
+          uri: lb://auth-server
+          predicates:
+            - Path=/auth/**
+        - id: health_route
+          uri: lb://health-server
+          predicates:
+            - Path=/health/**
+
+
+
+
+
+
+  redis:
+    database: 11
+    host: 10.138.25.20
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: auth-server
+    name: health-server
   redis:
     database: 14
     host: 10.138.25.20
@@ -11,6 +11,12 @@ spring:
         max-idle: 8
         max-wait: -1ms
         min-idle: 0
+
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8899
+        port: 8899
 server:
   port: 6101
 
