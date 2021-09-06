@@ -60,26 +60,13 @@ public class ExceptionControllerAdvice {
     }
 
 
-    /**
-     * 处理AccessDeineHandler无权限异常
-     * @param
-     * @param
-     * @return
-     */
-//    @ExceptionHandler(value = AccessDeniedException.class)
-//    @ResponseBody
-//    public ApiResponse exceptionHandler(HttpServletRequest req, AccessDeniedException e){
-//        return ApiResponse.ofStatus(Status.ACCESS_DENIED);
-//
-//    }
-
 
     @ExceptionHandler(value = {Exception.class})
     public ApiResponse exceptionHandler(Exception exception, HttpServletResponse response) {
-        // 自定义异常返回
-//        if(exception instanceof CommonException) {
-//            return ApiResponse.ofException((CommonException)exception);
-//        }
+        // HttpServletResponse自定义异常返回
+        if(exception instanceof CommonException) {
+            return ApiResponse.ofException((CommonException)exception);
+        }
         if(exception instanceof HttpMessageNotReadableException) {
             exception.printStackTrace();
             return ApiResponse.ofStatus(Status.PARAMS_ERROR);

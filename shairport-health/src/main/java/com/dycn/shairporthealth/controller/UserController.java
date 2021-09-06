@@ -30,6 +30,7 @@ public class UserController {
 
 
     @GetMapping(value = "get1")
+    @PreAuthorize("hasRole('ROLE_T')")
     public Object get1(Authentication authentication){
         authentication.getCredentials();
         OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();

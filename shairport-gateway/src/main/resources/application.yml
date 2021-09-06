@@ -1,14 +1,10 @@
 server:
   port: 9527
 
-
-
 spring:
+  profiles:
+    active: prod
   cloud:
-    sentinel:
-      transport:
-        dashboard: localhost:8899
-        port: 8899
     gateway:
       globalcors:
         cors-configurations:
@@ -24,11 +20,11 @@ spring:
               - OPTION
       routes:
         - id: auth_route
-          uri: lb://auth-server
+          uri: lb://airport-auth
           predicates:
             - Path=/auth/**
         - id: health_route
-          uri: lb://health-server
+          uri: lb://airport-health
           predicates:
             - Path=/health/**
 
@@ -36,14 +32,3 @@ spring:
 
 
 
-
-  redis:
-    database: 11
-    host: 10.138.25.20
-    port: 6379
-    jedis:
-      pool:
-        max-active: 8
-        max-idle: 8
-        max-wait: -1ms
-        min-idle: 0
