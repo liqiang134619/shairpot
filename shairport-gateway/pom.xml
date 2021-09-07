@@ -20,6 +20,12 @@
 	<dependencies>
 
 
+		<dependency>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>knife4j-spring-boot-starter</artifactId>
+		</dependency>
+
+
 		<!--alibaba 流量卫士-->
 <!--		<dependency>-->
 <!--			<groupId>com.alibaba.csp</groupId>-->

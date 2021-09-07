@@ -23,10 +23,16 @@ spring:
           uri: lb://airport-auth
           predicates:
             - Path=/auth/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
         - id: health_route
           uri: lb://airport-health
           predicates:
             - Path=/health/**
+          filters:
+            - SwaggerHeaderFilter
+            - StripPrefix=1
 
 
 
