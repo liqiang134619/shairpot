@@ -6,11 +6,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 
 /**
  * @author Liq
- * @date 2021/3/30
+ * @date 2021-9-8
  */
 @Configuration
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-
 
 
     @Override

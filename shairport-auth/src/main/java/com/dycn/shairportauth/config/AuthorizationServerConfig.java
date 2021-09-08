@@ -1,6 +1,8 @@
 package com.dycn.shairportauth.config;
 
 import com.dycn.shairportauth.service.CustomUserDetailsServiceImpl;
+import com.dycn.shairportcommon.constant.Status;
+import com.dycn.shairportcommon.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +14,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,22 +55,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private TokenEnhancer jwtTokenEnhancer;
 
 
+    @Autowired
+    private WebResponseExceptionTranslator webResponseExceptionTranslator;
 
 
-    /**
-     *  OAuth2客户端
-     * authorization_code：授权码类型。
-     * implicit：隐式授权类型。
-     * password：资源所有者（即用户）密码类型。
-     * client_credentials：客户端凭据（客户端ID以及Key）类型。
-     * refresh_token：通过以上授权获得的刷新令牌来获取新的令牌。
-     */
+
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
+        // client 信息直接放在内存中校验，有需要添加数据库认证
         clients.inMemory()
-                .withClient("user-client")
-                .secret(passwordEncoder.encode("user-secret-8888"))
+                .withClient("health-client")
+                .secret(passwordEncoder.encode("health-secret-8888"))
                 // 拥有的认证模式
                 .authorizedGrantTypes("refresh_token", "authorization_code", "password")
                 .accessTokenValiditySeconds(3600)
@@ -98,11 +98,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 //      1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
                 //      2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
                 .reuseRefreshTokens(true);
+        endpoints.exceptionTranslator(webResponseExceptionTranslator);
 
 
     }
-
-
 
 
     @Override
@@ -113,6 +112,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .checkTokenAccess("isAuthenticated()")
                 .tokenKeyAccess("isAuthenticated()");
     }
+
+
 }
 
 

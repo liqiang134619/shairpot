@@ -6,6 +6,10 @@ spring:
     active: prod
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态创建路由的功能
+          lower-case-service-id: true #使用小写服务名，默认是大写
       globalcors:
         cors-configurations:
           '[/**]':
@@ -22,18 +26,15 @@ spring:
         - id: auth_route
           uri: lb://airport-auth
           predicates:
-            - Path=/auth/**
+            - Path=/oauth/**
           filters:
-            - SwaggerHeaderFilter
             - StripPrefix=1
         - id: health_route
           uri: lb://airport-health
           predicates:
             - Path=/health/**
           filters:
-            - SwaggerHeaderFilter
             - StripPrefix=1
-
 
 
 

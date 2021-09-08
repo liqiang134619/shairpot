@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @author Liq
- * @date 2021/4/2
+ * @date 2021-9-8
  */
 @Slf4j
 @Configuration
@@ -36,6 +36,10 @@ public class CustomLoginFilter implements GlobalFilter, Ordered {
         // 获取当前请求url，若为包含 /login 或 /oauth/ 则不检查 access_token
 
         String requestUrl = exchange.getRequest().getURI().toString();
+
+        if(requestUrl.contains("/api-docs")) {
+            return chain.filter(exchange);
+        }
 
         if (requestUrl.contains(SecurityConstant.OAUTH_URL) || requestUrl.contains(SecurityConstant.LOGIN_URL)) {
             return chain.filter(exchange);

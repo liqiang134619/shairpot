@@ -4,9 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+
 /**
  * @author Liq
- * @date 2021/3/29
+ * @date 2021-9-8
  */
 @EnableDiscoveryClient
 @SpringBootApplication

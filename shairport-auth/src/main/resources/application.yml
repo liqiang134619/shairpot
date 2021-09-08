@@ -3,3 +3,11 @@ server:
 spring:
   profiles:
     active: prod
+
+
+
+
+custom:
+  config:
+    ignores:
+       - "/**"
