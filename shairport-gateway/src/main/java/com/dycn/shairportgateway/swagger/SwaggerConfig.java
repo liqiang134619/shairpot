@@ -1,4 +1,4 @@
-package com.dycn.shairportgateway.config;
+package com.dycn.shairportgateway.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

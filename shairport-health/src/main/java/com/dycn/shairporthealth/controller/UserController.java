@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping(value = "get")
     @ApiOperation("获取用户token基础信息")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_TEST')")
     public Object get(Authentication authentication){
         authentication.getCredentials();
         OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails)authentication.getDetails();

@@ -1,4 +1,4 @@
-package com.dycn.shairportgateway.config;
+package com.dycn.shairportgateway.swagger;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.dycn.shairportgateway.filter;
+package com.dycn.shairportgateway.swagger;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
