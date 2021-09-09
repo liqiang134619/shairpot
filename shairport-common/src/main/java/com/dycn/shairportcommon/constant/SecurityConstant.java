@@ -39,12 +39,13 @@ public class SecurityConstant {
     public static final String[] PATTERN_URLS = {
             "/actuator/**",
             "/druid/**",
-
             "/webjars/**",
             "/swagger-resources/**",
             "/v2/api-docs",
             "/v2/api-docs-ext",
             "/swagger-ui.html",
-            "/doc.html"
+            "/doc.html",
+            "/auth/login",
+            "/oauth"
     };
 }

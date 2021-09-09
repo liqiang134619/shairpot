@@ -15,9 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
 import java.nio.charset.StandardCharsets;
-
-
 
 
 /**
@@ -29,21 +28,15 @@ import java.nio.charset.StandardCharsets;
 public class CustomLoginFilter implements GlobalFilter, Ordered {
 
 
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        // 获取当前请求url，若为包含 /login 或 /oauth/ 则不检查 access_token
-
+        // 放行配置中的路径
         String requestUrl = exchange.getRequest().getURI().toString();
-
-        if(requestUrl.contains("/api-docs")) {
+        if (checkIgnores(requestUrl)) {
             return chain.filter(exchange);
         }
 
-        if (requestUrl.contains(SecurityConstant.OAUTH_URL) || requestUrl.contains(SecurityConstant.LOGIN_URL)) {
-            return chain.filter(exchange);
-        }
 
         ServerHttpResponse response = exchange.getResponse();
 
@@ -54,7 +47,6 @@ public class CustomLoginFilter implements GlobalFilter, Ordered {
             String jsonString = JSON.toJSONString(ApiResponse.ofStatus(Status.TOKEN_EXPIRED));
             return getVoidMono(response, jsonString);
         }
-
 
         // 判断 access_token 是否 Bearer  开头
         if (!accessToken.startsWith(SecurityConstant.BEARER_PREFIX)) {
@@ -71,6 +63,7 @@ public class CustomLoginFilter implements GlobalFilter, Ordered {
 
     }
 
+
     private Mono<Void> getVoidMono(ServerHttpResponse response, String jsonString) {
         response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
         byte[] datas = jsonString.getBytes(StandardCharsets.UTF_8);
@@ -81,7 +74,19 @@ public class CustomLoginFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-         // 值越大，优先级越低
+        // 值越大，优先级越低
         return 10;
+    }
+
+
+    private boolean checkIgnores(String requestUrl) {
+        String[] patternUrls = SecurityConstant.PATTERN_URLS;
+
+        for (String patternUrl : patternUrls) {
+            if (requestUrl.contains(patternUrl)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,6 +1,7 @@
 package com.dycn.shairportgateway.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.dycn.shairportcommon.constant.ApiResponse;
 import com.dycn.shairportcommon.exception.CommonException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -102,8 +103,8 @@ public class CustomExceptionHandler implements ErrorWebExceptionHandler {
 
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             // Internal Server Error
-//            body = JsonUtil.obj2Json(Result.failure(httpStatus.value(), "调用失败，服务不可用"));
-            body = JSON.toJSONString(ex);
+            body = JSON.toJSONString(ApiResponse.ofSuccess(httpStatus.value(), "调用失败，服务不可用"));
+//            body = JSON.toJSONString(ex);
 
         }
         /**

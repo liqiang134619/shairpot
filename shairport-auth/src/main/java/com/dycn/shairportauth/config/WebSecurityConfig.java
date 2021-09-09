@@ -95,7 +95,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**","/doc.html","/swagger-resources/**","/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .formLogin()
+                .and()
+                .logout();
 
         // 合并不许要拦截的URL地址
 //        String[] excludeUrls = ArrayUtils.addAll(SecurityConstant.PATTERN_URLS, permitUrls);

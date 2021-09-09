@@ -51,6 +51,7 @@ public class UserController {
                 .setSigningKey("dev".getBytes(StandardCharsets.UTF_8))
                 .parseClaimsJws(jwtToken)
                 .getBody();
-        return claims;
+        return claims.get("jwt-ext");
+//        return claims;
     }
 }

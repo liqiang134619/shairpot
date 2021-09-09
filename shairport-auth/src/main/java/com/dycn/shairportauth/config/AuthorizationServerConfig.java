@@ -19,10 +19,8 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -45,19 +43,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
 
 
-    @Autowired
-    private TokenStore jwtTokenStore;
-
-    @Autowired
-    private JwtAccessTokenConverter jwtAccessTokenConverter;
-
-    @Autowired
-    private TokenEnhancer jwtTokenEnhancer;
-
-
-    @Autowired
-    private WebResponseExceptionTranslator webResponseExceptionTranslator;
-
 
 
 
@@ -75,6 +60,25 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
 
+
+
+
+
+
+    @Autowired
+    private WebResponseExceptionTranslator webResponseExceptionTranslator;
+
+
+    @Autowired
+    private TokenStore jwtTokenStore;
+
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+
+    @Autowired
+    private TokenEnhancer jwtTokenEnhancer;
+
+
     /**
      * 配置身份认证器，配置认证方式，TokenStore，TokenGranter，OAuth2RequestFactory
      */
@@ -84,6 +88,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         /**
          * jwt 增强模式
          */
+
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> enhancerList = new ArrayList<>();
         enhancerList.add(jwtTokenEnhancer);

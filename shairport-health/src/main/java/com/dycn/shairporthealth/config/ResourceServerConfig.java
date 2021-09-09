@@ -12,6 +12,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -73,6 +74,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.tokenStore(jwtTokenStore);
+        //这个貌似是配置要不要把token信息记录在session中
         resources.stateless(true);
         resources.accessDeniedHandler(oAuth2AccessDeniedHandler);
         resources.authenticationEntryPoint(authenticationEntryPoint);
@@ -96,6 +98,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/swagger-resources", "/swagger-resources/configuration/security",
                         "/swagger-ui.html", "/webjars/**", "/health/v2/api-docs").permitAll()
                 .anyRequest().authenticated();
+
+
+        //这个貌似是配置要不要把token信息记录在session中
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
     }
 
 
