@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -32,7 +32,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  */
 @Configuration
 @EnableResourceServer
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@ComponentScan(basePackages = {"com.dycn.shairportcommon"})
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 
@@ -96,7 +96,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //下边的路径放行
                 .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security",
-                        "/swagger-ui.html", "/webjars/**", "/health/v2/api-docs").permitAll()
+                        "/swagger-ui.html", "/webjars/**", "/health/v2/api-docs","/test").permitAll()
                 .anyRequest().authenticated();
 
 

@@ -15,12 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.util.Base64Utils;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import javax.annotation.Resource;
 import java.util.HashMap;
 
 /**
@@ -38,7 +35,8 @@ public class OAuth2Controller {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    @Qualifier("defaultAuthorizationServerTokenServices")
+
+    @Qualifier("tokenServices")
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
 
@@ -52,7 +50,8 @@ public class OAuth2Controller {
     @ApiOperation(value = "测试连通性",response = String.class)
     public String test1() {
 
-        return "test success~";
+        return "测试连通性";
+
     }
 
 

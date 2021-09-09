@@ -38,7 +38,7 @@ public class CorsConfigration {
     public FilterRegistrationBean someFilterRegistration() {
         FilterRegistrationBean<CorsFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(corsFilter());
-        registration.addUrlPatterns("/*");
+        registration.addUrlPatterns("/**");
         registration.setName("corsFilter");
         registration.setOrder(Integer.MIN_VALUE);
         return registration;
