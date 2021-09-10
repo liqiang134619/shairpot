@@ -38,33 +38,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//
-//    @Bean
-//    public DaoAuthenticationProvider daoAuthenticationProvider() {
-//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//        daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
-//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-//        return daoAuthenticationProvider ;
-//    }
 
-//
-//    /**
-//     * 配置认证的用户信息
-//     *
-//     * @param auth
-//     * @throws Exception
-//     */
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        // 配置数据库认证
-//        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-//
-//    }
+    /**
+     *  配置认证与欧诺个户
+     * @param auth 授权断点
+     * @throws Exception 认证失败
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // 配置数据库认证
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
 
-//    @Autowired
-//    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(daoAuthenticationProvider()) ;
-//    }
+    }
+
 
 
 
@@ -76,25 +62,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
+        WebSecurity webSecurity = web.ignoring().and();
 
-        web.ignoring().antMatchers("/userlogin","/userlogout","/userjwt","/**");
-
-//        WebSecurity webSecurity = web.ignoring().and();
-
-         // 按照指定规则过滤
-//        custom2Config.getIgnores().forEach(url -> webSecurity.ignoring().antMatchers(url));
+        // 按照指定规则过滤
+        custom2Config.getIgnores().forEach(url -> webSecurity.ignoring().antMatchers(url));
     }
 
 
-    /**
-     * 允许匿名访问所有接口 主要是 oauth 接口
-     *
-     * @param http
-     * @throws Exception
-     */
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
 
         http.cors()
                 // 关闭 CSRF
@@ -103,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()    // 认证请求
                 .authorizeRequests()
-                .antMatchers("/oauth/**", "/login/**", "/logout/**","/**","/v2/**")
+                .antMatchers("/oauth/**", "/login/**", "/logout/**", "/**", "/v2/**")
                 .permitAll()
                 // 所有请求都需要登录访问
                 .anyRequest()
@@ -112,6 +89,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable();
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /******************************************************************************************************/
+
+    //    @Autowired
+//    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.authenticationProvider(daoAuthenticationProvider()) ;
+//    }
+
+    //    @Bean
+//    public DaoAuthenticationProvider daoAuthenticationProvider() {
+//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+//        daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+//        return daoAuthenticationProvider ;
+//    }
 
 
 //        http
@@ -124,7 +130,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .logout();
 
-        // 合并不许要拦截的URL地址
+    // 合并不许要拦截的URL地址
 //        String[] excludeUrls = ArrayUtils.addAll(SecurityConstant.PATTERN_URLS, permitUrls);
 //
 //        http
@@ -136,7 +142,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()
 //                .and()
 //                .formLogin();
-
 
 
 }

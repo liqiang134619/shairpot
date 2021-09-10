@@ -81,7 +81,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     /**
      * token 生成细节描述
-     * @return
+     * @return AuthorizationServerTokenServices
      */
     @Bean
     public AuthorizationServerTokenServices tokenServices() {
@@ -132,7 +132,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 //      1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
                 //      2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
                 .reuseRefreshTokens(true);
-//        endpoints.exceptionTranslator(webResponseExceptionTranslator);
+        endpoints.exceptionTranslator(webResponseExceptionTranslator);
 
 
     }
