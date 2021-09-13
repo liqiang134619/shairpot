@@ -96,7 +96,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 //下边的路径放行
                 .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security",
-                        "/swagger-ui.html", "/webjars/**", "/health/v2/api-docs","/test").permitAll()
+                        "/swagger-ui.html", "/webjars/**", "/health/v2/api-docs","/test","/**").permitAll()
                 .anyRequest().authenticated();
 
 

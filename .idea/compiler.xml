@@ -7,10 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="shairport-common" />
-        <module name="shairport-gateway" />
         <module name="shairport-auth" />
         <module name="shairport-health" />
+        <module name="shairport-expt-impt" />
+        <module name="shairport-gateway" />
+        <module name="shairport-common" />
         <module name="shairport-mq-consumer" />
       </profile>
     </annotationProcessing>

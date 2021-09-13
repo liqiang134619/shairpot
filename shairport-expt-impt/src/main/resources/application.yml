@@ -1,0 +1,6 @@
+server:
+  port: 6102
+
+spring:
+  profiles:
+    active: dev
