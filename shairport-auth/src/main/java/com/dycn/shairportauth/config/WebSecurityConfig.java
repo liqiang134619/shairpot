@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     /**
-     *  配置认证与欧诺个户
+     *  配置认证
      * @param auth 授权断点
      * @throws Exception 认证失败
      */
